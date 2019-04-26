@@ -7,6 +7,7 @@ pid=0
 term_handler() {
   if [ $pid -ne 0 ]; then
     #kill -SIGTERM "$pid"
+    echo ">>> Shutting down zookeeper $ID ..."
     bin/zkServer.sh stop
     wait "$pid"
   fi
@@ -14,7 +15,17 @@ term_handler() {
 }
 
 echo ">>> Configurando $ZOOCFG..."
-sed -i "s/zookeeper$ID/$(ip route | awk '/link/ { print $7 }')/g" $ZOOCFG
+#sed -i "s/zookeeper$ID/$(ip route | awk '/link/ { print $7 }')/g" $ZOOCFG
+
+qtde_found=$(cat $ZOOCFG | grep -c "server.$ID")
+
+if [ $qtde_found -eq 0 ]; then
+   #string not contained in file
+   echo "server.$ID=$(ip route | awk '/link/ { print $7 }'):2888:3888" >> $ZOOCFG
+else
+   #string is in file at least once
+   sed -i "s/server.$ID=zookeeper$ID/server.$ID=$(ip route | awk '/link/ { print $7 }')/g" $ZOOCFG
+fi
 
 sleep 2
 echo ">>> Starting zookeeper $ID ..."
