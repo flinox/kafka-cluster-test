@@ -33,18 +33,18 @@ RUN tar xfz /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /opt && \
     mkdir ${ZOOKEEPER_DATA} -p && \
     mkdir ${ZOOKEEPER_HOME}/log
 
+WORKDIR ${ZOOKEEPER_HOME}
+
 COPY ./conf/* ${ZOOKEEPER_HOME}/conf/
 COPY start.sh ${ZOOKEEPER_HOME}/
 
 RUN chown ${USER}:${GID} ${ZOOKEEPER_DATA} && \
     chown ${USER}:${GID} -R ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} && \
-    chown -h ${USER}:${GID} ${ZOOKEEPER_HOME}
+    chown -h ${USER}:${GID} ${ZOOKEEPER_HOME} 
 
 USER ${USER}
 
 #RUN echo "sed -i 's/zookeeper1/${IP}/g' ${ZOOKEEPER_HOME}/conf/zoo.cfg" >> 
-
-WORKDIR ${ZOOKEEPER_HOME}
 
 # Use "exec" form so that it runs as PID 1 (useful for graceful shutdown)
 CMD sh -c "./start.sh"
@@ -57,7 +57,11 @@ CMD sh -c "./start.sh"
 # docker build -t flinox/zookeeper_cluster .
 
 # Rodar o container interativo
-# docker run -it --rm --name zookeeper_cluster --hostname zookeeper_cluster -e ID=1 -v $(pwd)/data/zookeeper/:/data/zookeeper flinox/zookeeper_cluster sh
+# docker run --rm --name zookeeper_cluster --hostname zookeeper_cluster \
+# -u zookeeper:zookeeper -e ID=1 \
+# -v /data/zookeeper1/:/data/zookeeper \
+# -v /log/zookeeper1/:/opt/zookeeper/log \
+# flinox/zookeeper_cluster
 
 # Rodar o container normal
 # docker run --rm --name zookeeper_cluster --hostname zookeeper_cluster -e ID=1 flinox/zookeeper_cluster
