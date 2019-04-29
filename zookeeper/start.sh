@@ -7,6 +7,7 @@ pid=0
 term_handler() {
   if [ $pid -ne 0 ]; then
     #kill -SIGTERM "$pid"
+    echo ""
     echo ">>> Shutting down zookeeper $ID ..."
     bin/zkServer.sh stop $ZOOCFG
     wait "$pid"
