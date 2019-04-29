@@ -17,33 +17,37 @@ ENV ZOOKEEPER_HOME=${ZKH} \
     UID=1000 \
     GID=1000 
 
-RUN addgroup --gid ${GID} ${USER} && \
-    adduser --disabled-password --gecos "" \
-    --home ${ZOOKEEPER_HOME} \
-    --ingroup ${USER} \
-    --no-create-home \
-    --uid ${UID} ${USER} && \
-    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN addgroup --gid ${GID} ${USER} \
+    && adduser --disabled-password --gecos "" \
+       --home ${ZOOKEEPER_HOME} \
+       --ingroup ${USER} \
+       --no-create-home \
+       --uid ${UID} ${USER} && \
+       echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN apk add --no-cache bash curl jq nano sudo && \
-    cd /tmp && wget http://ftp.unicamp.br/pub/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz
+RUN apk add --no-cache bash curl jq nano sudo \
+    && cd /tmp && wget http://ftp.unicamp.br/pub/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz
 
-RUN tar xfz /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /opt && \
-    rm /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz && \
-    ln -s ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} ${ZOOKEEPER_HOME} && \
-    mkdir ${ZOOKEEPER_DATA} -p && \
-    mkdir ${ZOOKEEPER_HOME}/log
+RUN tar xfz /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /opt \
+    && rm /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
+    && ln -s ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} ${ZOOKEEPER_HOME} \
+    && mkdir ${ZOOKEEPER_DATA} -p \
+    && mkdir ${ZOO_LOG_DIR}
 
 WORKDIR ${ZOOKEEPER_HOME}
 
 COPY ./conf/* ${ZOOKEEPER_HOME}/conf/
 COPY start.sh ${ZOOKEEPER_HOME}/
 
-RUN chown ${USER}:${GID} ${ZOOKEEPER_DATA} && \
-    chown ${USER}:${GID} -R ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} && \
-    chown -h ${USER}:${GID} ${ZOOKEEPER_HOME} 
+RUN chown ${USER}:${GID} ${ZOOKEEPER_DATA} \
+    && chown ${USER}:${GID} -R ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} \
+    && chown -h ${USER}:${GID} ${ZOOKEEPER_HOME} \
+    && chown ${USER}:${GID} -R ${ZOO_LOG_DIR}
 
 USER ${USER}
+
+EXPOSE 2181
+EXPOSE 2888-3888
 
 #RUN echo "sed -i 's/zookeeper1/${IP}/g' ${ZOOKEEPER_HOME}/conf/zoo.cfg" >> 
 
@@ -58,15 +62,20 @@ CMD sh -c "./start.sh"
 # docker build -t flinox/zookeeper_cluster .
 
 # Rodar o container interativo
-# export ID=1
+# export ID=2
 
 # docker run --rm \
 # --name zookeeper${ID} --hostname zookeeper${ID} \
+# --network bridge \
 # -u 1000:1000 -e ID=${ID} \
 # -v $(pwd)/data/zookeeper${ID}/:/data/zookeeper \
 # -v $(pwd)/log/zookeeper${ID}/:/opt/zookeeper/log \
 # -v $(pwd)/conf/:/opt/zookeeper/conf \
 # flinox/zookeeper_cluster
+
+# Após adicionar um novo nó, restartar o zookeeper
+# docker exec -it zookeeper1 ./bin/zkServer.sh restart $ZOOCFG
+
 
 # Rodar o container normal
 # docker run --rm --name zookeeper_cluster --hostname zookeeper_cluster -e ID=1 flinox/zookeeper_cluster
