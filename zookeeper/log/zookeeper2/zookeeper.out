@@ -1,0 +1,15 @@
+2019-04-29 17:56:55,605 [myid:] - INFO  [main:QuorumPeerConfig@136] - Reading configuration from: /opt/zookeeper/conf/zoo.cfg
+2019-04-29 17:56:55,618 [myid:] - INFO  [main:QuorumPeer$QuorumServer@185] - Resolved hostname: 172.17.0.2 to address: /172.17.0.2
+2019-04-29 17:56:55,619 [myid:] - INFO  [main:QuorumPeer$QuorumServer@185] - Resolved hostname: 172.21.0.3 to address: /172.21.0.3
+2019-04-29 17:56:55,620 [myid:] - WARN  [main:QuorumPeerConfig@351] - No server failure will be tolerated. You need at least 3 servers.
+2019-04-29 17:56:55,620 [myid:] - INFO  [main:QuorumPeerConfig@398] - Defaulting to majority quorums
+2019-04-29 17:56:55,621 [myid:] - ERROR [main:QuorumPeerMain@88] - Invalid config, exiting abnormally
+org.apache.zookeeper.server.quorum.QuorumPeerConfig$ConfigException: Error processing /opt/zookeeper/conf/zoo.cfg
+	at org.apache.zookeeper.server.quorum.QuorumPeerConfig.parse(QuorumPeerConfig.java:156)
+	at org.apache.zookeeper.server.quorum.QuorumPeerMain.initializeAndRun(QuorumPeerMain.java:104)
+	at org.apache.zookeeper.server.quorum.QuorumPeerMain.main(QuorumPeerMain.java:81)
+Caused by: java.lang.IllegalArgumentException: /data/zookeeper/myid file is missing
+	at org.apache.zookeeper.server.quorum.QuorumPeerConfig.parseProperties(QuorumPeerConfig.java:408)
+	at org.apache.zookeeper.server.quorum.QuorumPeerConfig.parse(QuorumPeerConfig.java:152)
+	... 2 more
+Invalid config, exiting abnormally

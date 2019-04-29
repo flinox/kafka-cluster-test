@@ -3,12 +3,13 @@ services:
 
   zookeeper1:
     image: flinox/zookeeper_cluster
+    user: "1000:1000"
     hostname: zookeeper1
     container_name: zookeeper1      
     volumes:
-      - /data/zookeeper1:/data/zookeeper
-      - /log/zookeeper1:/opt/zookeeper/log
-      - /conf/zoo.cfg:/opt/zookeeper/conf/zoo.cfg      
+      - ./zookeeper/data/zookeeper1:/data/zookeeper
+      - ./zookeeper/log/zookeeper1:/opt/zookeeper/log
+      - ./zookeeper/conf/zookeeper1:/opt/zookeeper/conf      
     ports:
       - "2181:2181"
     environment:
@@ -16,29 +17,43 @@ services:
 
   zookeeper2:
     image: flinox/zookeeper_cluster
+    user: "1000:1000"
     hostname: zookeeper2
     container_name: zookeeper2
     volumes:
-      - /data/zookeeper2:/data/zookeeper
-      - /log/zookeeper2:/opt/zookeeper/log
-      - /conf/zoo.cfg:/opt/zookeeper/conf/zoo.cfg      
+      - ./zookeeper/data/zookeeper2:/data/zookeeper
+      - ./zookeeper/log/zookeeper2:/opt/zookeeper/log
+      - ./zookeeper/conf/zookeeper2:/opt/zookeeper/conf      
     ports:
-      - "2181:2181"
+      - "2182:2181"
     environment:
-      ID: 2
+      ID: 2      
+
+  # zookeeper2:
+  #   image: flinox/zookeeper_cluster
+  #   hostname: zookeeper2
+  #   container_name: zookeeper2
+  #   volumes:
+  #     - /data/zookeeper2:/data/zookeeper
+  #     - /log/zookeeper2:/opt/zookeeper/log
+  #     - /conf/zoo.cfg:/opt/zookeeper/conf/zoo.cfg      
+  #   ports:
+  #     - "2181:2181"
+  #   environment:
+  #     ID: 2
       
-  zookeeper3:
-    image: flinox/zookeeper_cluster
-    hostname: zookeeper3
-    container_name: zookeeper3    
-    volumes:
-      - /data/zookeeper3:/data/zookeeper
-      - /log/zookeeper3:/opt/zookeeper/log
-      - /conf/zoo.cfg:/opt/zookeeper/conf/zoo.cfg
-    ports:
-      - "2181:2181"
-    environment:
-      ID: 3
+  # zookeeper3:
+  #   image: flinox/zookeeper_cluster
+  #   hostname: zookeeper3
+  #   container_name: zookeeper3    
+  #   volumes:
+  #     - /data/zookeeper3:/data/zookeeper
+  #     - /log/zookeeper3:/opt/zookeeper/log
+  #     - /conf/zoo.cfg:/opt/zookeeper/conf/zoo.cfg
+  #   ports:
+  #     - "2181:2181"
+  #   environment:
+  #     ID: 3
 
   # kafka:
   #   build: .

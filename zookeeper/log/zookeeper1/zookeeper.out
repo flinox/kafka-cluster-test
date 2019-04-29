@@ -1,0 +1,31 @@
+2019-04-29 17:55:58,219 [myid:] - INFO  [main:QuorumPeerConfig@136] - Reading configuration from: /opt/zookeeper/conf/zoo.cfg
+2019-04-29 17:55:58,233 [myid:] - INFO  [main:QuorumPeer$QuorumServer@185] - Resolved hostname: 172.17.0.2 to address: /172.17.0.2
+2019-04-29 17:55:58,234 [myid:] - ERROR [main:QuorumPeerConfig@347] - Invalid configuration, only one server specified (ignoring)
+2019-04-29 17:55:58,235 [myid:] - INFO  [main:DatadirCleanupManager@78] - autopurge.snapRetainCount set to 3
+2019-04-29 17:55:58,235 [myid:] - INFO  [main:DatadirCleanupManager@79] - autopurge.purgeInterval set to 0
+2019-04-29 17:55:58,236 [myid:] - INFO  [main:DatadirCleanupManager@101] - Purge task is not scheduled.
+2019-04-29 17:55:58,236 [myid:] - WARN  [main:QuorumPeerMain@116] - Either no config or no quorum defined in config, running  in standalone mode
+2019-04-29 17:55:58,246 [myid:] - INFO  [main:QuorumPeerConfig@136] - Reading configuration from: /opt/zookeeper/conf/zoo.cfg
+2019-04-29 17:55:58,247 [myid:] - INFO  [main:QuorumPeer$QuorumServer@185] - Resolved hostname: 172.17.0.2 to address: /172.17.0.2
+2019-04-29 17:55:58,247 [myid:] - ERROR [main:QuorumPeerConfig@347] - Invalid configuration, only one server specified (ignoring)
+2019-04-29 17:55:58,247 [myid:] - INFO  [main:ZooKeeperServerMain@98] - Starting server
+2019-04-29 17:55:58,252 [myid:] - INFO  [main:Environment@100] - Server environment:zookeeper.version=3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf, built on 03/06/2019 16:18 GMT
+2019-04-29 17:55:58,252 [myid:] - INFO  [main:Environment@100] - Server environment:host.name=zookeeper1
+2019-04-29 17:55:58,252 [myid:] - INFO  [main:Environment@100] - Server environment:java.version=1.8.0_201
+2019-04-29 17:55:58,252 [myid:] - INFO  [main:Environment@100] - Server environment:java.vendor=Oracle Corporation
+2019-04-29 17:55:58,253 [myid:] - INFO  [main:Environment@100] - Server environment:java.home=/usr/lib/jvm/java-1.8-openjdk/jre
+2019-04-29 17:55:58,254 [myid:] - INFO  [main:Environment@100] - Server environment:java.class.path=/opt/zookeeper-3.4.14/bin/../zookeeper-server/target/classes:/opt/zookeeper-3.4.14/bin/../build/classes:/opt/zookeeper-3.4.14/bin/../zookeeper-server/target/lib/*.jar:/opt/zookeeper-3.4.14/bin/../build/lib/*.jar:/opt/zookeeper-3.4.14/bin/../lib/slf4j-log4j12-1.7.25.jar:/opt/zookeeper-3.4.14/bin/../lib/slf4j-api-1.7.25.jar:/opt/zookeeper-3.4.14/bin/../lib/netty-3.10.6.Final.jar:/opt/zookeeper-3.4.14/bin/../lib/log4j-1.2.17.jar:/opt/zookeeper-3.4.14/bin/../lib/jline-0.9.94.jar:/opt/zookeeper-3.4.14/bin/../lib/audience-annotations-0.5.0.jar:/opt/zookeeper-3.4.14/bin/../zookeeper-3.4.14.jar:/opt/zookeeper-3.4.14/bin/../zookeeper-server/src/main/resources/lib/*.jar:/opt/zookeeper-3.4.14/bin/../conf:/opt/zookeeper-3.4.14/lib:/opt/zookeeper-3.4.14:/usr/lib/jvm/java-1.8-openjdk/jre
+2019-04-29 17:55:58,254 [myid:] - INFO  [main:Environment@100] - Server environment:java.library.path=/usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/server:/usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64:/usr/lib/jvm/java-1.8-openjdk/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+2019-04-29 17:55:58,254 [myid:] - INFO  [main:Environment@100] - Server environment:java.io.tmpdir=/tmp
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:java.compiler=<NA>
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:os.name=Linux
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:os.arch=amd64
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:os.version=4.15.0-47-generic
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:user.name=zookeeper
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:user.home=/opt/zookeeper
+2019-04-29 17:55:58,255 [myid:] - INFO  [main:Environment@100] - Server environment:user.dir=/opt/zookeeper-3.4.14
+2019-04-29 17:55:58,262 [myid:] - INFO  [main:ZooKeeperServer@836] - tickTime set to 2000
+2019-04-29 17:55:58,262 [myid:] - INFO  [main:ZooKeeperServer@845] - minSessionTimeout set to -1
+2019-04-29 17:55:58,262 [myid:] - INFO  [main:ZooKeeperServer@854] - maxSessionTimeout set to -1
+2019-04-29 17:55:58,269 [myid:] - INFO  [main:ServerCnxnFactory@117] - Using org.apache.zookeeper.server.NIOServerCnxnFactory as server connection factory
+2019-04-29 17:55:58,274 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181

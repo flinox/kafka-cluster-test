@@ -3,21 +3,26 @@ A Kafka cluster to run and go, contains zookeeper, kafka broker, kafka connect a
 
 # Under construction...
 
-Create a UID=99999 and GID=99999 on host to map the volume to avoid error of  permission denied.
+The owner of the volumes must have the UID 1000, or you need to change the UID and GID on Dockerfile.
 ```
-sudo addgroup --gid 99999 zookeeper
-```
-
-```
-sudo adduser --disabled-password --gecos "" --home /opt/zookeeper --ingroup zookeeper --no-create-home --uid 99999 zookeeper
-```
-
-Define permissions on folders data and log
-
-```
-sudo chmod 775 log -R
-sudo chmod 775 data -R
+/conf
+/data
+/log
 ```
 
 
+## Run the container
+```
+cd ~/github.com/flinox/kafka_cluster/zookeeper
+
+export ID=2
+
+docker run --rm \
+--name zookeeper${ID} --hostname zookeeper${ID} \
+-u 1000:1000 -e ID=${ID} \
+-v $(pwd)/data/zookeeper${ID}/:/data/zookeeper \
+-v $(pwd)/log/zookeeper${ID}/:/opt/zookeeper/log \
+-v $(pwd)/conf/:/opt/zookeeper/conf \
+flinox/zookeeper_cluster
+```
 

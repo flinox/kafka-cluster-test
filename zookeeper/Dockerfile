@@ -4,17 +4,18 @@ ARG ZKV=3.4.14
 ARG ZKH=/opt/zookeeper
 ARG ZKL=/opt/zookeeper/log
 ARG ZKD=/data/zookeeper
+ARG ZKC=/conf/zoo.cfg
 
 ENV ZOOKEEPER_HOME=${ZKH} \
     ZOOKEEPER_DATA=${ZKD} \
     ZOOKEEPER_VERSION=${ZKV} \
     ZOO_LOG_DIR=${ZKL} \
-    ZOOCFG=${ZKH}/conf/zoo.cfg \
+    ZOOCFG=${ZKH}${ZKC} \
     PATH=${PATH}:${ZKH}/bin \
     CLASSPATH=${ZKH}-${ZKV}/lib:${ZKH}-${ZKV}:/usr/lib/jvm/java-1.8-openjdk/jre \
     USER=zookeeper \
-    UID=99999 \
-    GID=99999 
+    UID=1000 \
+    GID=1000 
 
 RUN addgroup --gid ${GID} ${USER} && \
     adduser --disabled-password --gecos "" \
@@ -57,10 +58,14 @@ CMD sh -c "./start.sh"
 # docker build -t flinox/zookeeper_cluster .
 
 # Rodar o container interativo
-# docker run --rm --name zookeeper_cluster --hostname zookeeper_cluster \
-# -u zookeeper:zookeeper -e ID=1 \
-# -v /data/zookeeper1/:/data/zookeeper \
-# -v /log/zookeeper1/:/opt/zookeeper/log \
+# export ID=1
+
+# docker run --rm \
+# --name zookeeper${ID} --hostname zookeeper${ID} \
+# -u 1000:1000 -e ID=${ID} \
+# -v $(pwd)/data/zookeeper${ID}/:/data/zookeeper \
+# -v $(pwd)/log/zookeeper${ID}/:/opt/zookeeper/log \
+# -v $(pwd)/conf/:/opt/zookeeper/conf \
 # flinox/zookeeper_cluster
 
 # Rodar o container normal
