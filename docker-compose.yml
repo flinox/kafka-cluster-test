@@ -101,7 +101,8 @@ services:
     depends_on:
       - zookeeper1
       - zookeeper2
-      - zookeeper3         
+      - zookeeper3 
+      - kafka1        
 
   kafka3:
     image: flinox/kafka_cluster
@@ -150,7 +151,9 @@ services:
     depends_on:
       - zookeeper1
       - zookeeper2
-      - zookeeper3      
+      - zookeeper3     
+      - kafka1
+      - kafka2             
 
   # kafka_client:
   #   image: flinox/flinox:v2
