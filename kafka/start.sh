@@ -31,12 +31,12 @@ fi
 
 sleep 2
 echo ">>> Starting kafka $ID ..."
-bin/kafka-server-start.sh ${KAFKA_CONFIG:1} & 
+bin/kafka-server-start.sh -daemon ${KAFKA_CONFIG:1} & 
 pid="$!"
 
 trap 'term_handler' SIGHUP SIGINT SIGTERM
 
-#sleep infinity
-tail -f /dev/null
+sleep 6
+#tail -f /dev/null
 
-#tail -f $KAFKA_LOG/zookeeper.out & wait
+tail -f ${KAFKA_LOG}/server.log & wait

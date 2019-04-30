@@ -3,7 +3,7 @@ FROM openjdk:8u201-jre-alpine
 ARG KFV=2.2.0
 ARG SCV=2.12
 ARG KFH=/opt/kafka
-ARG KFL=/opt/kafka/log
+ARG KFL=/opt/kafka/logs
 ARG KFD=/data/kafka
 ARG KFC=/config/server.properties
 
