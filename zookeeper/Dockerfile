@@ -29,8 +29,9 @@ RUN apk add --no-cache bash curl jq nano sudo \
     && cd /tmp && wget http://ftp.unicamp.br/pub/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz
 
 RUN tar xfz /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /opt \
-    && rm /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
-    && ln -s ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} ${ZOOKEEPER_HOME} \
+    && rm /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz
+
+RUN ln -s ${ZOOKEEPER_HOME}-${ZOOKEEPER_VERSION} ${ZOOKEEPER_HOME} \
     && mkdir ${ZOOKEEPER_DATA} -p \
     && mkdir ${ZOO_LOG_DIR}
 
