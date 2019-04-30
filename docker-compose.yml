@@ -64,7 +64,7 @@ services:
 
 
   kafka1:
-    image: flinox/zookeeper_cluster
+    image: flinox/kafka_cluster
     user: "1000:1000"    
     hostname: kafka1
     container_name: kafka1
@@ -84,7 +84,7 @@ services:
       - zookeeper3      
 
   kafka2:
-    image: flinox/zookeeper_cluster
+    image: flinox/kafka_cluster
     user: "1000:1000"    
     hostname: kafka2
     container_name: kafka2
@@ -104,7 +104,7 @@ services:
       - zookeeper3         
 
   kafka3:
-    image: flinox/zookeeper_cluster
+    image: flinox/kafka_cluster
     user: "1000:1000"    
     hostname: kafka3
     container_name: kafka3
