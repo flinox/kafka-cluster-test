@@ -155,14 +155,16 @@ services:
       - kafka1
       - kafka2             
 
-  # kafka_client:
-  #   image: flinox/flinox:v2
-  #   hostname: kafka_client
-  #   container_name: kafka_client  
-  #   stdin_open: true
-  #   tty: true
-  #   # environment:
-  #   #   TERM: "xterm"
-  #   command: /bin/bash -c "sleep infinity"
+  kafka_client:
+    image: flinox/flinox:v2
+    hostname: kafka_client
+    container_name: kafka_client  
+    networks:
+      - cluster-net
+    stdin_open: true
+    tty: true
+    # environment:
+    #   TERM: "xterm"
+    command: /bin/bash -c "sleep infinity"
 
 

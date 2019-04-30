@@ -77,10 +77,19 @@ CMD sh -c "./start.sh"
 # flinox/kafka_cluster
 
 # Rodar Kafka
-# docker run -it --rm --name kafka${ID} --hostname kafka${ID} --network bridge -u 1000:1000 -e ID=${ID} -v $(pwd)/log/kafka${ID}/:/opt/kafka/log -v $(pwd)/config/kafka${ID} flinox/kafka_cluster sh
+# docker run -it --rm \
+# --name kafka${ID} --hostname kafka${ID} \
+# --network bridge \
+# -u 1000:1000 -e ID=${ID} \
+# -v $(pwd)/log/kafka${ID}/:/opt/kafka/log \
+# -v $(pwd)/config/kafka${ID}:/opt/kafka/config \
+# flinox/kafka_cluster sh
 
 
-
+# docker run -it --rm \
+# --name kafka_client --hostname kafka_client \
+# --network kafka_cluster_cluster-net \
+# flinox/flinox:v2 /bin/bash
 
 
 # Após adicionar um novo nó, restartar o zookeeper

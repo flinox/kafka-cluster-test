@@ -36,7 +36,8 @@ pid="$!"
 
 trap 'term_handler' SIGHUP SIGINT SIGTERM
 
-sleep 6
+sleep 10
 #tail -f /dev/null
 
-tail -f ${KAFKA_LOG}/server.log & wait
+#tail -f ${KAFKA_LOG}/server.log & wait
+tail -f ${KAFKA_LOG}/kafkaServer.out & wait
