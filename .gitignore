@@ -1,2 +1,3 @@
 /zookeeper/data/*
 /zookeeper/log/*
+/kafka/log/*
