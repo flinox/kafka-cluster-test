@@ -1,9 +1,10 @@
 version: '2'
-services:
 
 networks:
   cluster-net:
     driver: bridge
+
+services:
 
   zookeeper1:
     image: flinox/zookeeper_cluster
