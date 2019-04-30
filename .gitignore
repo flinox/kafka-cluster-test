@@ -1,4 +1,4 @@
-/kafka/log/*
-/zookeeper/data/*
-/zookeeper/log/*
+kafka/log/*
+zookeeper/data/*
+zookeeper/log/*
 
