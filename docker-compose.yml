@@ -166,5 +166,7 @@ services:
     # environment:
     #   TERM: "xterm"
     command: /bin/bash -c "sleep infinity"
+    depends_on:
+      - kafka3
 
 

@@ -19,15 +19,15 @@ term_handler() {
 echo ">>> Configurando kafka $ID..."
 #sed -i "s/zookeeper$ID/$(ip route | awk '/link/ { print $7 }')/g" $ZOOCFG
 
-# qtde_found=$(cat ${KAFKA_CONFIG:1} | grep -c "broker.id=")
+qtde_found=$(cat ${KAFKA_CONFIG:1} | grep -c "broker.id=")
 
-# if [ $qtde_found -eq 0 ]; then
-#    #string not contained in file
-#    echo "broker.id=$ID" >> ${KAFKA_CONFIG:1}
-# else
-#    #string is in file at least once
-#    sed -i "s/broker.id=0/broker.id=$ID/g" ${KAFKA_CONFIG:1}
-# fi
+if [ $qtde_found -eq 0 ]; then
+   #string not contained in file
+   echo "broker.id=$ID" >> ${KAFKA_CONFIG:1}
+else
+   #string is in file at least once
+   sed -i -E "s/(broker.id=)[0-9]{1,}/broker.id=$ID/g" ${KAFKA_CONFIG:1}
+fi
 
 sleep 2
 echo ">>> Starting kafka $ID ..."
