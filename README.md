@@ -51,6 +51,8 @@ cd ~/github.com/flinox/kafka_cluster/kafka
 docker build -t flinox/kafka_cluster .
 ```
 
+Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable.
+
 ## Run the cluster
 
 After configure, to run the container inside your AWS cloud or your onpremises server, just run:
@@ -116,24 +118,17 @@ kafka/config/kafka4
 
 Change the file server.properties :
 ```
+# The broker.id is automatically updated by start.sh script, but you can set the value of your new node
+# in our example is 4
+broker.id=4
 
+# If you have zookeeper nodes you need to include on this parameter
+# I will work on create a script to do this soon
+zookeeper.connect=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
 ```
 
 
-zookeeper.connect=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
-
-
-Every new node will automatically update the zookeeper/conf/zoo.cfg with the ip of new node.
-
-
-
-
-
-
-
-
-
-
+### Commands
 
 ```
 cd ~/github.com/flinox/kafka_cluster/zookeeper
