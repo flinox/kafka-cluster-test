@@ -3,17 +3,23 @@
 A simple kafka cluster to give you an ideia, how it works.
 I'm learning too, so if you found an error or have a suggestion to change, please let me know...
 
-But i test and everything work, very tolerant a failures, it's amazing !!
+Email: <fernandolinox@gmail.com>
+[Linkedin Flinox](https://www.linkedin.com/in/flinox/)
 
-So, you need to run 
+I test and everything is working, very tolerant a failures, it's amazing !!
+
+So, you just need to type: 
 ```
 docker-compose up
 ```
 
 And... good to go !
-Maybe you need to tunning parameters, configurations and so on... but, this code will give you a good ideia to work with kafka.
+
+Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
 
 ## Pre-reqs
+
+You need to know and have Docker on the machine.
 
 The owner of the volumes must have the UID 1000, or you need to change the UID and GID on respectives kafka/Dockerfile and zookeeper/Dockerfile.
 
@@ -32,6 +38,7 @@ Where kafka/config is the configuration folder for every node of kafka
 Where zookeeper/conf is the configuration folder who is shared for every node of zookeeper, if you want, you can create conf isolated for zookeeper.
 
 Is very important before you run and use your cluster, you need to configure a persistent volumes for store the data:
+
 ```
 zookeeper/data
 ```
@@ -41,7 +48,7 @@ zookeeper/log
 kafka/log
 ```
 
-Build the dockerfile to create an image of zookeeper and another for kafka, something like:
+Build the dockerfile to create an image of zookeeper and another for kafka on your dockerhub account, remember to change the image reference on docker-compose.yml, to build the images run something like:
 
 ```
 cd ~/github.com/flinox/kafka_cluster/zookeeper
@@ -127,6 +134,8 @@ broker.id=4
 zookeeper.connect=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
 ```
 
+I will work soon to make a script to easly make this, and maybe use docker-compose scale, but i need more time lol...
+
 
 ### If you don't want to use docker-compose, you can run individualy, something like this:
 
@@ -181,12 +190,13 @@ Now you don't need to restart the others, it will recognize the new nodes.
 
 ## Running another client to consult who is the leader
 ```
-docker run -it --rm --name flinox_zookeeper flinox/flinox:v2 sh
-root@5486cd28fda8:/# echo stat | nc 172.17.0.3 2181 | grep Mode
+# echo stat | nc 172.17.0.3 2181 | grep Mode
 Mode: leader
-root@5486cd28fda8:/# echo stat | nc 172.17.0.2 2181 | grep Mode
+
+# echo stat | nc 172.17.0.2 2181 | grep Mode
 Mode: follower
-root@5486cd28fda8:/# echo stat | nc 172.17.0.4 2181 | grep Mode
+
+# echo stat | nc 172.17.0.4 2181 | grep Mode
 Mode: follower
 ```
 
@@ -203,8 +213,6 @@ echo isro | nc 172.17.0.2 2181
 echo stat | nc 172.17.0.4 2181
 echo mntr | nc 172.17.0.4 2181
 echo isro | nc 172.17.0.4 2181
-
-
 ```
 
 
@@ -278,9 +286,20 @@ docker run --rm \
 -v $(pwd)/config/kafka${ID}:/opt/kafka/config \
 flinox/kafka_cluster &
 
+sleep 5
+export ID=3
+
+docker run --rm \
+--name kafka${ID} --hostname kafka${ID} \
+--network bridge \
+-u 1000:1000 -e ID=${ID} -e ALLOW_PLAINTEXT_LISTENER=yes \
+-v $(pwd)/log/kafka${ID}/:/opt/kafka/logs \
+-v $(pwd)/config/kafka${ID}:/opt/kafka/config \
+flinox/kafka_cluster &
+
 ```
 
-## Test the cluster
+## The results of test the cluster
 
 ### Check the containers are running
 ![Containers Running](images/20190504_201115.png)
