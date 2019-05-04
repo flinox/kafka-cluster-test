@@ -128,7 +128,7 @@ zookeeper.connect=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
 ```
 
 
-### Commands
+### If you don't want to use docker-compose, you can run individualy, something like this:
 
 ```
 cd ~/github.com/flinox/kafka_cluster/zookeeper
@@ -144,7 +144,7 @@ docker run --rm \
 flinox/zookeeper_cluster
 ```
 
-## Adding another node on cluster
+## Adding another zookeeper node on cluster
 
 ```
 export ID=2
@@ -163,7 +163,7 @@ After you need restart all others nodes, like node 1, for example:
 docker exec -it zookeeper1 ./bin/zkServer.sh restart $ZOOCFG
 ```
 
-## Adding another node on cluster
+## Adding another zookeeper node on cluster
 
 ```
 export ID=3
@@ -282,12 +282,46 @@ flinox/kafka_cluster &
 
 ## Test the cluster
 
-kafka-topics --create --zookeeper zookeeper1:2181 --replication-factor 1 --partitions 1 --topic test
+### Check the containers are running
+![Containers Running](images/20190504_201115.png)
 
-kafka-topics --list --zookeeper zookeeper1:2181
+### Access the kafka client with the tools to manage kafka:
+![Kafka Client by Flinox](images/20190504_201408.png)
 
-kafka-console-producer --broker-list kafka1:9092,kafka2:9093,kafka3:9094 --topic test
+### Create a topic with replication-factor equals 3, same number of nodes.
+```
+kafka-topics --zookeeper zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 --create --topic ALUNO-CADASTRADO --partitions 10 --replication-factor 3
+```
+![Create Topic](images/20190504_201600.png)
+
+### Check if the topic was created
+```
+kafka-topics --list --zookeeper zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+```
+![Check if topic was created](images/20190504_201708.png)
 
 
-kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic test --from-beginning
+### Produce messages on topic
+```
+kafka-console-producer --broker-list kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO
+```
+![Produce Messages](images/20190504_201930.png)
 
+### Consume the messages
+```
+kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO --from-beginning
+```
+![Consume Messages](images/20190504_202117.png)
+
+### Now you can try the high availability, shutting down a node of kafka or zookeeper, for sample:
+```
+docker stop kafka3
+docker stop zookeeper2
+```
+![Shutdown containers](images/20190504_202804.png)
+
+### And try to consume the messages again, check if all messages are displayed ( remember it can not came sorted )
+```
+kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO --from-beginning
+```
+![The messages still there!](images/20190504_202525.png)
