@@ -327,8 +327,9 @@ kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --
 ![The messages still there!](images/20190504_202525.png)
 
 
-Please if you have any suggestions or corrections, let me know !
-I don't know everything, and really i'm learning it too, so... i hope it help anyone who are learning like me !!
+Please if you have any suggestions or corrections, let me know ! I don't know everything, and really i'm learning it too, so... i hope it help anyone who are learning like me !!
+
+I will evolve making some scripts to make more easily the use, but i need time... rs
 
 Email: <fernandolinox@gmail.com>
 
