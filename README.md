@@ -325,3 +325,11 @@ docker stop zookeeper2
 kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO --from-beginning
 ```
 ![The messages still there!](images/20190504_202525.png)
+
+
+Please if you have any suggestions or corrections, let me know !
+I don't know everything, and really i'm learning it too, so... i hope it help anyone who are learning like me !!
+
+Email: <fernandolinox@gmail.com>
+
+[Linkedin Flinox](https://www.linkedin.com/in/flinox/)
