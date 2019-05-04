@@ -58,6 +58,17 @@ cd ~/github.com/flinox/kafka_cluster/kafka
 docker build -t flinox/kafka_cluster .
 ```
 
+Or, you can uncomment the "build" on docker-compose.yml, but the start will take much more time, for example:
+```
+.
+services:
+
+  zookeeper1:
+    build: ./zookeeper/
+    #image: flinox/zookeeper_cluster
+.
+```
+
 Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable.
 
 ## Run the cluster
