@@ -10,8 +10,6 @@ So, you just need to type:
 docker-compose up
 ```
 
-And... good to go !
-
 Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
 
 ## What is Kafka ?
