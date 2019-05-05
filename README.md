@@ -1,10 +1,7 @@
-# kafka_cluster
+# KAFKA CLUSTER
 
 A simple kafka cluster to give you an ideia, how it works.
-I'm learning too, so if you found an error or have a suggestion to change, please let me know...
-
-Email: <fernandolinox@gmail.com>
-[Linkedin Flinox](https://www.linkedin.com/in/flinox/)
+I'm learning too, so if you found an error or have a suggestion to change, please let me know... email: <fernandolinox@gmail.com> or on [Linkedin Flinox](https://www.linkedin.com/in/flinox/)
 
 I test and everything is working, very tolerant a failures, it's amazing !!
 
@@ -23,7 +20,7 @@ You need to know and have Docker on the machine.
 
 The owner of the volumes must have the UID 1000, or you need to change the UID and GID on respectives kafka/Dockerfile and zookeeper/Dockerfile.
 
-The folders are:
+The folders you need to create and set the correct ownership are:
 
 ```
 kafka/config
@@ -34,8 +31,8 @@ zookeeper/data
 zookeeper/log
 ```
 
-Where kafka/config is the configuration folder for every node of kafka
-Where zookeeper/conf is the configuration folder who is shared for every node of zookeeper, if you want, you can create conf isolated for zookeeper.
+Where kafka/config is the configuration folder for every node of kafka.
+Where zookeeper/conf is the configuration folder who is shared for every node of zookeeper, you can create conf isolated for zookeeper if you want.
 
 Is very important before you run and use your cluster, you need to configure a persistent volumes for store the data:
 
@@ -69,7 +66,7 @@ services:
 .
 ```
 
-Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable.
+Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable and study how to turn it safe for production ( I will soon ).
 
 ## Run the cluster
 
@@ -227,7 +224,7 @@ echo isro | nc 172.17.0.4 2181
 ```
 
 
-# Running a cluster with 3 zookeepers and 3 kafkas
+## Running a cluster with 3 zookeepers and 3 kafkas
 
 ```
 
