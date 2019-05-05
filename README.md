@@ -1,17 +1,5 @@
 # KAFKA CLUSTER
 
-A simple kafka cluster to give you an ideia, how it works.
-I'm learning too, so if you found an error or have a suggestion to change, please let me know... email: <fernandolinox@gmail.com> or on [Linkedin Flinox](https://www.linkedin.com/in/flinox/)
-
-I test and everything is working, very tolerant a failures, it's amazing !!
-
-So, you just need to type: 
-```
-docker-compose up
-```
-
-Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
-
 ## What is Kafka ?
 
 Apache Kafka® is a distributed streaming platform. What exactly does that mean?
@@ -31,6 +19,20 @@ Kafka is generally used for two broad classes of applications:
 
 More informations on: [Apache Kafka Introduction](https://kafka.apache.org/intro)
 
+
+## The KAFKA CLUSTER by Flinox
+
+A simple kafka cluster to give you an ideia, how it works.
+I'm learning too, so if you found an error or have a suggestion to change, please let me know... email: <fernandolinox@gmail.com> or on [Linkedin Flinox](https://www.linkedin.com/in/flinox/)
+
+I test and everything is working, very tolerant a failures, it's amazing !!
+
+So, you just need to type: 
+```
+docker-compose up
+```
+
+Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
 
 ## Pre-reqs
 
