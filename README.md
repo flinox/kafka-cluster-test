@@ -14,6 +14,26 @@ And... good to go !
 
 Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
 
+## What is Kafka ?
+
+Apache Kafka® is a distributed streaming platform. What exactly does that mean?
+
+A streaming platform has three key capabilities:
+
+    Publish and subscribe to streams of records, similar to a message queue or enterprise messaging system.
+    Store streams of records in a fault-tolerant durable way.
+    Process streams of records as they occur. 
+
+Kafka is generally used for two broad classes of applications:
+
+    Building real-time streaming data pipelines that reliably get data between systems or applications
+    Building real-time streaming applications that transform or react to the streams of data 
+
+![Apache Kafka](https://kafka.apache.org/22/images/kafka-apis.png)
+
+More informations on: [Apache Kafka Introduction](https://kafka.apache.org/intro)
+
+
 ## Pre-reqs
 
 You need to know and have Docker on the machine.
