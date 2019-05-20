@@ -27,6 +27,7 @@ if [ $qtde_found -eq 0 ]; then
 else
    #string is in file at least once
    sed -i "s/server.$ID=zookeeper$ID/server.$ID=$(ip route | awk '/link/ { print $7 }')/g" $ZOOCFG
+   echo "$ID" > $ZOOKEEPER_DATA/myid   
 fi
 
 sleep 2

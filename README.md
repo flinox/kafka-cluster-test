@@ -1,23 +1,46 @@
-# kafka_cluster
+# KAFKA CLUSTER
+
+## What is Kafka ?
+
+Apache Kafka® is a distributed streaming platform. What exactly does that mean?
+
+A streaming platform has three key capabilities:
+
+    Publish and subscribe to streams of records, similar to a message queue or enterprise messaging system.
+    Store streams of records in a fault-tolerant durable way.
+    Process streams of records as they occur. 
+
+Kafka is generally used for two broad classes of applications:
+
+    Building real-time streaming data pipelines that reliably get data between systems or applications
+    Building real-time streaming applications that transform or react to the streams of data 
+
+![Apache Kafka](https://kafka.apache.org/22/images/kafka-apis.png)
+
+More informations on: [Apache Kafka Introduction](https://kafka.apache.org/intro)
+
+
+## The KAFKA CLUSTER by Flinox
 
 A simple kafka cluster to give you an ideia, how it works.
-I'm learning too, so if you found an error or have a suggestion to change, please let me know...
+I'm learning too, so if you found an error or have a suggestion to change, please let me know... email: <fernandolinox@gmail.com> or on [Linkedin Flinox](https://www.linkedin.com/in/flinox/)
 
-But i test and everything work, very tolerant a failures, it's amazing !!
+I test and everything is working, very tolerant a failures, it's amazing !!
 
-So, you need to run 
+So, you just need to type: 
 ```
 docker-compose up
 ```
 
-And... good to go !
-Maybe you need to tunning parameters, configurations and so on... but, this code will give you a good ideia to work with kafka.
+Maybe you need to tunning parameters, configurations, setting persistent volumes... and so on... but, this code will give you a good ideia to work with a kafka cluster.
 
 ## Pre-reqs
 
+You need to know and have Docker on the machine.
+
 The owner of the volumes must have the UID 1000, or you need to change the UID and GID on respectives kafka/Dockerfile and zookeeper/Dockerfile.
 
-The folders are:
+The folders you need to create and set the correct ownership are:
 
 ```
 kafka/config
@@ -28,10 +51,11 @@ zookeeper/data
 zookeeper/log
 ```
 
-Where kafka/config is the configuration folder for every node of kafka
-Where zookeeper/conf is the configuration folder who is shared for every node of zookeeper, if you want, you can create conf isolated for zookeeper.
+Where kafka/config is the configuration folder for every node of kafka.
+Where zookeeper/conf is the configuration folder who is shared for every node of zookeeper, you can create conf isolated for zookeeper if you want.
 
 Is very important before you run and use your cluster, you need to configure a persistent volumes for store the data:
+
 ```
 zookeeper/data
 ```
@@ -41,7 +65,7 @@ zookeeper/log
 kafka/log
 ```
 
-Build the dockerfile to create an image of zookeeper and another for kafka, something like:
+Build the dockerfile to create an image of zookeeper and another for kafka on your dockerhub account, remember to change the image reference on docker-compose.yml, to build the images run something like:
 
 ```
 cd ~/github.com/flinox/kafka_cluster/zookeeper
@@ -51,7 +75,18 @@ cd ~/github.com/flinox/kafka_cluster/kafka
 docker build -t flinox/kafka_cluster .
 ```
 
-Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable.
+Or, you can uncomment the "build" on docker-compose.yml, but the start will take much more time, for example:
+```
+.
+services:
+
+  zookeeper1:
+    build: ./zookeeper/
+    #image: flinox/zookeeper_cluster
+.
+```
+
+Initialy the zookeeper and kafka are not safety, because I'm using on zookeeper image the ALLOW_ANONYMOUS_LOGIN: "yes", but if you expect use this in production I recomend you turn off this variable and study how to turn it safe for production ( I will soon ).
 
 ## Run the cluster
 
@@ -127,8 +162,10 @@ broker.id=4
 zookeeper.connect=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
 ```
 
+I will work soon to make a script to easly make this, and maybe use docker-compose scale, but i need more time lol...
 
-### Commands
+
+### If you don't want to use docker-compose, you can run individualy, something like this:
 
 ```
 cd ~/github.com/flinox/kafka_cluster/zookeeper
@@ -144,7 +181,7 @@ docker run --rm \
 flinox/zookeeper_cluster
 ```
 
-## Adding another node on cluster
+## Adding another zookeeper node on cluster
 
 ```
 export ID=2
@@ -163,7 +200,7 @@ After you need restart all others nodes, like node 1, for example:
 docker exec -it zookeeper1 ./bin/zkServer.sh restart $ZOOCFG
 ```
 
-## Adding another node on cluster
+## Adding another zookeeper node on cluster
 
 ```
 export ID=3
@@ -181,12 +218,13 @@ Now you don't need to restart the others, it will recognize the new nodes.
 
 ## Running another client to consult who is the leader
 ```
-docker run -it --rm --name flinox_zookeeper flinox/flinox:v2 sh
-root@5486cd28fda8:/# echo stat | nc 172.17.0.3 2181 | grep Mode
+# echo stat | nc 172.17.0.3 2181 | grep Mode
 Mode: leader
-root@5486cd28fda8:/# echo stat | nc 172.17.0.2 2181 | grep Mode
+
+# echo stat | nc 172.17.0.2 2181 | grep Mode
 Mode: follower
-root@5486cd28fda8:/# echo stat | nc 172.17.0.4 2181 | grep Mode
+
+# echo stat | nc 172.17.0.4 2181 | grep Mode
 Mode: follower
 ```
 
@@ -203,12 +241,10 @@ echo isro | nc 172.17.0.2 2181
 echo stat | nc 172.17.0.4 2181
 echo mntr | nc 172.17.0.4 2181
 echo isro | nc 172.17.0.4 2181
-
-
 ```
 
 
-# Running a cluster with 3 zookeepers and 3 kafkas
+## Running a cluster with 3 zookeepers and 3 kafkas
 
 ```
 
@@ -278,16 +314,70 @@ docker run --rm \
 -v $(pwd)/config/kafka${ID}:/opt/kafka/config \
 flinox/kafka_cluster &
 
+sleep 5
+export ID=3
+
+docker run --rm \
+--name kafka${ID} --hostname kafka${ID} \
+--network bridge \
+-u 1000:1000 -e ID=${ID} -e ALLOW_PLAINTEXT_LISTENER=yes \
+-v $(pwd)/log/kafka${ID}/:/opt/kafka/logs \
+-v $(pwd)/config/kafka${ID}:/opt/kafka/config \
+flinox/kafka_cluster &
+
 ```
 
-## Test the cluster
+## The results of test the cluster
 
-kafka-topics --create --zookeeper zookeeper1:2181 --replication-factor 1 --partitions 1 --topic test
+### Check the containers are running
+![Containers Running](images/20190504_201115.png)
 
-kafka-topics --list --zookeeper zookeeper1:2181
+### Access the kafka client with the tools to manage kafka:
+![Kafka Client by Flinox](images/20190504_201408.png)
 
-kafka-console-producer --broker-list kafka1:9092,kafka2:9093,kafka3:9094 --topic test
+### Create a topic with replication-factor equals 3, same number of nodes.
+```
+kafka-topics --zookeeper zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 --create --topic ALUNO-CADASTRADO --partitions 10 --replication-factor 3
+```
+![Create Topic](images/20190504_201600.png)
+
+### Check if the topic was created
+```
+kafka-topics --list --zookeeper zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+```
+![Check if topic was created](images/20190504_201708.png)
 
 
-kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic test --from-beginning
+### Produce messages on topic
+```
+kafka-console-producer --broker-list kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO
+```
+![Produce Messages](images/20190504_201930.png)
 
+### Consume the messages
+```
+kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO --from-beginning
+```
+![Consume Messages](images/20190504_202117.png)
+
+### Now you can try the high availability, shutting down a node of kafka or zookeeper, for sample:
+```
+docker stop kafka3
+docker stop zookeeper2
+```
+![Shutdown containers](images/20190504_202804.png)
+
+### And try to consume the messages again, check if all messages are displayed ( remember it can not came sorted )
+```
+kafka-console-consumer --bootstrap-server kafka1:9092,kafka2:9093,kafka3:9094 --topic ALUNO-CADASTRADO --from-beginning
+```
+![The messages still there!](images/20190504_202525.png)
+
+
+Please if you have any suggestions or corrections, let me know ! I don't know everything, and really i'm learning it too, so... i hope it help anyone who are learning like me !!
+
+I will evolve making some scripts to make more easily the use, but i need time... rs
+
+Email: <fernandolinox@gmail.com>
+
+[Linkedin Flinox](https://www.linkedin.com/in/flinox/)
