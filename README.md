@@ -102,6 +102,11 @@ You will start 3 zookeeper and 3 kafka brokers.
 
 ### Another zookeeper node
 
+Run to generate the volume folders
+```
+new_node_zookeeper.sh
+```
+
 Just add on your docker-compose.yml another service, for example:
 ```
   zookeeper4:
@@ -144,6 +149,11 @@ Just add on your docker-compose.yml another service, for example:
       ALLOW_PLAINTEXT_LISTENER: "yes"
 ```
 
+Run to generate the volume folders
+```
+new_node_kafka.sh
+```
+or manually do
 Before run, make a copy of folder:
 ```
 kafka/config/kafka1
